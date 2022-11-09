@@ -1,21 +1,52 @@
 import pygame
 import os
+from piece import Bishop
+from board import Board
+
+pygame.init()
+
+#WINDOW VARIABLES 
+WINDOW_WIDTH = 810
+WINDOW_HEIGHT = 810
+WINDOW_TITLE = "CHESS GAME"
 
 # LOADING IMAGES
-chessBoard = pygame.image.load(os.path.join("images","ChessBoard.jpg"))
+chessBoard = pygame.image.load(os.path.join("images","ChessBoard.png"))
+chessBoard = pygame.transform.scale(chessBoard, [WINDOW_WIDTH,WINDOW_HEIGHT])
+RECT = (25,25,760,760)
 
-# WHITE GOTI
-w_raja = pygame.image.load(os.path.join("images","raja_white.png"))
-w_wazir = pygame.image.load(os.path.join("images","wazir_white.png"))
-w_bishop = pygame.image.load(os.path.join("images","bw.png"))
-w_ghoda = pygame.image.load(os.path.join("images","ghoda_white.png"))
-w_hati = pygame.image.load(os.path.join("images","hati_white.png"))
-w_payada = pygame.image.load(os.path.join("images","pyada_white.png"))
 
-# BLACK GOTI
-b_raja = pygame.image.load(os.path.join("images","raja_black.png"))
-b_wazir = pygame.image.load(os.path.join("images","wazir_black.png"))
-b_bishop = pygame.image.load(os.path.join("images","bb.png"))
-b_ghoda = pygame.image.load(os.path.join("images","ghoda_black.png"))
-b_hati = pygame.image.load(os.path.join("images","hati_black.png"))
-b_payada = pygame.image.load(os.path.join("images","pyada_black.png"))
+
+
+
+
+def update_gameWindow():
+    global WINDOW
+    WINDOW.blit(chessBoard, (0,0))
+    b = Bishop(1,1, "w")
+    b.draw(WINDOW)
+    # pygame.draw.rect(WINDOW, (255,0,0),(25,25,760,760) ,5)
+    pygame.display.update()
+
+
+def main():
+    run = True
+    clock = pygame.time.Clock()
+    while run:
+        clock.tick(10)
+        update_gameWindow()    
+        # Event control during game loop
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+                pygame.quit()
+            if event.type == pygame.MOUSEMOTION:
+                pass
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                pass
+
+
+# WINDWO VARIABLES 
+WINDOW = pygame.display.set_mode((WINDOW_WIDTH,WINDOW_HEIGHT))
+pygame.display.set_caption(WINDOW_TITLE)
+main()
