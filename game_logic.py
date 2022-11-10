@@ -2,6 +2,7 @@ import pygame
 import os
 from piece import Bishop
 from board import Board
+import math
 
 pygame.init()
 
@@ -13,7 +14,7 @@ WINDOW_TITLE = "CHESS GAME"
 # LOADING IMAGES
 chessBoard = pygame.image.load(os.path.join("images","ChessBoard.png"))
 chessBoard = pygame.transform.scale(chessBoard, [WINDOW_WIDTH,WINDOW_HEIGHT])
-RECT = (25,25,760,760)
+RECT = (28,28,753,758)
 
 
 
@@ -21,15 +22,30 @@ RECT = (25,25,760,760)
 
 
 def update_gameWindow():
-    global WINDOW
+    global WINDOW,b
     WINDOW.blit(chessBoard, (0,0))
-    b = Bishop(1,1, "w")
-    b.draw(WINDOW)
-    # pygame.draw.rect(WINDOW, (255,0,0),(25,25,760,760) ,5)
+    b.draw(WINDOW,b.board)
+    pygame.draw.rect(WINDOW, (255,0,0),(28,28,753,758) ,2)
     pygame.display.update()
 
 
+def click(position):
+    x = position[0]
+    y = position[1]
+    if RECT[0] < x <  RECT[0]+RECT[2]:
+        if RECT[1] < y < RECT[1]+RECT[3]:
+            divX = x -  RECT[0] 
+            divY = y - RECT[0]
+            i = int((divX /(RECT[2]/8)))
+            j = int((divY/(RECT[3]/8)))
+            # print(i,j)
+    return i,j
+
+
+
 def main():
+    global b
+    b = Board(8, 8)
     run = True
     clock = pygame.time.Clock()
     while run:
@@ -43,8 +59,10 @@ def main():
             if event.type == pygame.MOUSEMOTION:
                 pass
             if event.type == pygame.MOUSEBUTTONDOWN:
-                pass
-
+                position = pygame.mouse.get_pos()
+                i,j = click(position)
+                # b.board[i][j].selected = True
+                b.select(i,j)
 
 # WINDWO VARIABLES 
 WINDOW = pygame.display.set_mode((WINDOW_WIDTH,WINDOW_HEIGHT))
