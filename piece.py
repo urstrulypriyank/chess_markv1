@@ -84,24 +84,24 @@ class Ghoda(Piece):
         # Down Left
         if i < 6 and j>0:
             p = board[i+2][j-1] 
-            if p== 0:
+            if p== 0 or p.color != self.color: 
                 moves.append((j-1,i+2))
                 
         # Down Right
         if i < 6 and j<7:
             p = board[i+2][j+1] 
-            if p== 0:
+            if p== 0 or p.color != self.color:
                 moves.append((j+1,i+2))
 
        # Side Left
         if i > 1 and j>0:
             p = board[i-2][j-1] 
-            if p== 0:
+            if p== 0 or p.color != self.color:
                 moves.append((j-1,i-2))
         # Side Riht
         if i > 1  and j<7:
             p = board[i-2][j+1] 
-            if p== 0:
+            if p== 0 or p.color != self.color:
                 moves.append((j+1,i-2))
         return moves
 
@@ -157,15 +157,26 @@ class Payada(Piece):
         """
         IF THE PAWN IS MOVING FIRST TIME IT CAN MOVE 1 OR 2 STEPS IN A GO 
         """
-        if self.first:
-            if i < 6:
-                p = board[i+2][j]
-                if p == 0:
-                    moves.append((j,i+2))
-        if i < 7:
-            p = board[i+1][j] 
-            if p== 0:
-                moves.append((j,i+1))
+        if self.color == "b":
+            if self.first:
+                if i < 6:
+                    p = board[i+2][j]
+                    if p == 0:
+                        moves.append((j,i+2))
+            if i < 7:
+                p = board[i+1][j] 
+                if p== 0:
+                    moves.append((j,i+1))
+        else:
+            if self.first:
+                if i < 0:
+                    p = board[i-2][j]
+                    if p == 0:
+                        moves.append((j,i-2))
+            if i < 1:
+                p = board[i-1][j] 
+                if p== 0:
+                    moves.append((j,i-1))
         return moves
 
 
@@ -183,26 +194,42 @@ class Raja(Piece):
         if i>0:
         # TOP LEFT
             if j > 0:
-                moves.append((j-1,i-1))
+                p = board[i-1][j-1]
+                if p == 0  or p.color != self.color:
+                    moves.append((j-1,i-1))
         # TOP MIDDLE           
-            moves.append((j,i-1))
+            p = board[j][i-1]
+            if p == 0  or p.color != self.color:
+                moves.append((j,i-1))
         # TOP RIFHT
             if j<7:
-                moves.append((j+1,i-1))
+                p = board[j+1][i-1]
+                if p == 0  or p.color != self.color:
+                    moves.append((j+1,i-1))
         #BOTTOM
         if i<7:
             # BL
             if j > 0:
-                moves.append((j-1,i+1))
+                p = board[j-1][i+1]
+                if p == 0  or p.color != self.color:
+                    moves.append((j-1,i+1))
             #BM
-            moves.append((j,i+1 ))
+            p = board[j][i+1]
+            if p == 0  or p.color != self.color:
+                moves.append((j,i+1 ))
             if j < 7:
-                moves.append((j+1,i+1))
+                p = board[j+1][i+1]
+                if p == 0  or p.color != self.color:
+                    moves.append((j+1,i+1))
         if j>0:
-            moves.append((j-1,i))
-        
+            p = board[j-1][i]
+            if p == 0  or p.color != self.color:
+                moves.append((j-1,i))
+
         if j<7:
-            moves.append((j+1,i))
+            p = board[j+1][i]
+            if p == 0  or p.color != self.color:
+                moves.append((j+1,i))
 
         return moves
 
