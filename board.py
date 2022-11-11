@@ -21,10 +21,6 @@ class Board:
         self.board[0][5] = Bishop(0, 5, "B")
         self.board[0][6] = Ghoda(0, 6, "B")
         self.board[0][7] = Hati(0, 7, "B")
-
-        # PAWN PLOT FOR BLACK
-        for i in range(8):
-            self.board[1][i] = Payada(1, i, "B")
         
         # FOR WHITE6
         self.board[7][0] = Hati(7, 0, "w")
@@ -36,9 +32,13 @@ class Board:
         self.board[7][6] = Ghoda(7, 6, "w")
         self.board[7][7] = Hati(7, 7, "w")
 
-        # PAWN PLOT FOR WHITE
-        for i in range(8):
-            self.board[6][i] = Payada(6, i, "w") 
+        # # PAWN PLOT FOR BLACK
+        # for i in range(8):
+        #     self.board[1][i] = Payada(1, i, "B")
+
+        # # PAWN PLOT FOR WHITE
+        # for i in range(8):
+        #     self.board[6][i] = Payada(6, i, "w") 
    
     def draw(self,WINDOW,board):
         for i in range(self.rows):
