@@ -300,45 +300,43 @@ class Wazir(Piece):
         i,j = self.row,self.col
         moves = []
         # TOP LEFT
-        d_j = j
+        d_jl = j + 1
+        d_jr = j 
         for d_i in range(i,8):
-            if d_j <= 7:
-                p = board[d_i][d_j]
+            if d_jl < 8 :
+                p = board[d_i][d_jl]
                 if p == 0:
-                    moves.append((d_j,d_i))
+                    moves.append((d_jl,d_i))
                 elif p.color != self.color:
-                    moves.append((d_j,d_i))
-            d_j += 1
-        d_j = j-1
-        for d_i in range(i,-1,-1):
-            if d_j >= 0:
-                p = board[d_i][d_j]
+                    moves.append((d_jl,d_i))
+            d_jl += 1
+            if d_jr > -1:
+                p = board[d_i][d_jr]
                 if p == 0:
-                    moves.append((d_j,d_i))
+                    moves.append((d_jr,d_i))
                 elif p.color != self.color:
-                    moves.append((d_j,d_i))
-            d_j -= 1
+                    moves.append((d_jr,d_i))
+            d_jr -= 1    
         
         # WHITE 
-
-        d_j = j-1
+        d_jl = j-1
+        d_jr = j+1
         for d_i in range(i-1,-1,-1):
-            if d_j > -1:
-                p = board[d_i][d_j]
+            if d_jl > -1:
+                p = board[d_i][d_jl]
                 if p == 0:
-                    moves.append((d_j,d_i))
+                    moves.append((d_jl,d_i))
                 elif p.color != self.color:
-                    moves.append((d_j,d_i))
-            d_j -= 1
-        d_j = j+1
-        for d_i in range(i-1,-1,-1):
-            if d_j <= 7:
-                p = board[d_i][d_j]
+                    moves.append((d_jl,d_i))
+            d_jl -= 1
+        
+            if d_jr <= 7:
+                p = board[d_i][d_jr]
                 if p == 0:
-                    moves.append((d_j,d_i))
+                    moves.append((d_jr,d_i))
                 elif p.color != self.color:
-                    moves.append((d_j,d_i))
-            d_j += 1
+                    moves.append((d_jr,d_i))
+            d_jr += 1
 
 
         
