@@ -41,18 +41,22 @@ class Piece:
         self.col = col
         self.color = color
         self.selected = False
+        self.move_list = []
     # def validMoves(self,board):
     #     pass
    
     def isSelected(self):
         return self.selected
+    def updateValidMoves(self,board):
+        self.move_list = self.validMoves(board)
+
     def draw(self,WINDOW,board):
         if self.color == "w":
             drawImage = W[self.img_pos]
         else:
             drawImage = B[self.img_pos]
         if self.selected:
-            moves = self.validMoves(board)
+            moves = self.move_list
             for move in moves:
                 x = 45+round(self.startX + (move[0]*self.RECT[2]/8))
                 y = 45+round(self.startY + (move[1]*self.RECT[3]/8))
@@ -66,7 +70,71 @@ class Piece:
 class Bishop(Piece):
     img_pos = 1
     def validMoves(self, board):
-        return []
+        i,j = self.row,self.col
+        moves = []
+
+        # BLACK DIAGONAL 
+        d_jl = j + 1
+        d_jr = j -1
+        for d_i in range(i+1,8):
+            if d_jl < 8 :
+                p = board[d_i][d_jl]
+                if p == 0:
+                    moves.append((d_jl,d_i))
+                elif p.color != self.color:
+                    moves.append((d_jl,d_i))
+                else:
+                    break
+            else:
+                break
+            d_jl += 1
+
+        for d_i in range(i+1,8):
+            if d_jr > -1:
+                p = board[d_i][d_jr]
+                if p == 0:
+                    moves.append((d_jr,d_i))
+                elif p.color != self.color:
+                    moves.append((d_jr,d_i))
+                else:
+                    break
+            else:
+                break    
+            d_jr -= 1
+        
+        # WHITE DIAGONAL
+        d_jl = j-1
+        d_jr = j+1
+        for d_i in range(i-1,-1,-1):
+            if d_jl > -1:
+                p = board[d_i][d_jl]
+                if p == 0:
+                    moves.append((d_jl,d_i))
+                elif p.color != self.color:
+                    moves.append((d_jl,d_i))
+                else:
+                    break
+            else:
+                break
+            d_jl -= 1
+        
+        for d_i in range(i-1,-1,-1):
+            if d_jr <= 7:
+                p = board[d_i][d_jr]
+                if p == 0:
+                    moves.append((d_jr,d_i))
+                elif p.color != self.color:
+                    moves.append((d_jr,d_i))
+                else:
+                    break
+            else:
+                break
+            d_jr += 1
+
+
+        
+        return moves
+
 
 
 class Ghoda(Piece):
@@ -299,10 +367,11 @@ class Wazir(Piece):
     def validMoves(self, board):
         i,j = self.row,self.col
         moves = []
-        # TOP LEFT
+
+        # BLACK DIAGONAL 
         d_jl = j + 1
-        d_jr = j 
-        for d_i in range(i,8):
+        d_jr = j -1
+        for d_i in range(i+1,8):
             if d_jl < 8 :
                 p = board[d_i][d_jl]
                 if p == 0:
@@ -318,7 +387,7 @@ class Wazir(Piece):
                     moves.append((d_jr,d_i))
             d_jr -= 1    
         
-        # WHITE 
+        # WHITE DIAGONAL
         d_jl = j-1
         d_jr = j+1
         for d_i in range(i-1,-1,-1):
@@ -338,6 +407,37 @@ class Wazir(Piece):
                     moves.append((d_jr,d_i))
             d_jr += 1
 
+# COPY MOVES OF HATHI / ROOK
+        #UP 
+        for x in range(i-1,-1,-1):
+            p = board[x][j]
+            if p == 0:
+                moves.append((j,x))
+            else:
+                break
+
+        # DOWN 
+        for x in range(i+1,8,1):
+            p = board[x][j]
+            if p == 0:
+                moves.append((j,x))
+            else:
+                break
+        #LEFT
+        for x in range(j-1,-1,-1):
+            p = board[i][x]
+            if p == 0:
+                moves.append((x,i))
+            else:
+                break
+        
+        #RIGHT
+        for x in range(j+1,8,1):
+            p = board[i][x]
+            if p == 0:
+                moves.append((x,i))
+            else:
+                break
 
         
         return moves
