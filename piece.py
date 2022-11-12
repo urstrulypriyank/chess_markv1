@@ -50,7 +50,7 @@ class Piece:
     def updateValidMoves(self,board):
         self.move_list = self.validMoves(board)
 
-    def draw(self,WINDOW,board):
+    def draw(self,WINDOW):
         if self.color == "w":
             drawImage = W[self.img_pos]
         else:
@@ -67,6 +67,13 @@ class Piece:
         if self.selected:
             pygame.draw.rect(WINDOW, (255,0,0), (x,y,90,90),2)
         WINDOW.blit(drawImage,(x,y))
+    def changePos(self,pos):
+        self.row = pos[0]
+        self.col = pos[1]
+    def __str__(self):
+        return str(self.col) + " " + str(self.row)
+
+
 class Bishop(Piece):
     img_pos = 1
     def validMoves(self, board):

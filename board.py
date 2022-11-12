@@ -4,6 +4,7 @@ from piece import Hati
 from piece import Bishop
 from piece import Wazir
 from piece import Payada
+
 class Board:
     def __init__(self,rows,cols):
         self.rows = rows
@@ -40,26 +41,46 @@ class Board:
         # for i in range(8):
         #     self.board[6][i] = Payada(6, i, "w") 
    
-    def draw(self,WINDOW,board):
+    def draw(self,WINDOW):
         for i in range(self.rows):
             for j in range(self.cols):
                 if self.board[i][j] != 0:
-                    self.board[i][j].draw(WINDOW,board)
+                    self.board[i][j].draw(WINDOW)
+    
     def select(self,cols,rows):
-        # making all other unselected
+        prev = (-1,-1)
+        for i in range(self.rows):
+                for j in range(self.cols):
+                    if self.board[i][j] != 0:
+                        if self.board[i][j].selected:
+                            prev = (i,j)
+        # if peice 
+        if self.board[rows][cols] == 0:
+            moves = self.board[prev[0]][prev[1]].move_list
+            if (cols,rows) in moves:
+                self.move(prev,(rows,cols))
+            self.reset_selected()
+        else:
+            self.reset_selected()
+            self.board[rows][cols].selected = True
+
+    def reset_selected(self):
         for i in range(self.rows):
             for j in range(self.cols):
                 if self.board[i][j] != 0:
                     self.board[i][j].selected = False
-        if self.board[rows][cols] != 0:
-            self.board[rows][cols].selected = True
-
-
-
+                   
 
     def move(self,start,end):
-        removed = self.board[end[1]][end[0]]
-        self.board[end[1]][end[0]] = self.board[start[1]][start[0]] 
-        self.board[start[1]][start[0]] = 0
-
-        return removed
+        newBoard = self.board[:]
+        newBoard[start[0]][start[1]].changePos((end[0],end[1]))
+        # newBoard[start[0]][start[1]].changePos((start[1],start[0]))
+        newBoard[end[0]][end[1]] = newBoard[start[0]][start[1]]
+        newBoard[start[1]][start[1]] = 0
+        self.board = newBoard
+    
+    def update_moves(self):
+        for i in range(self.rows):
+            for j in range(self.cols):
+                if self.board[i][j] != 0:
+                    self.board[i][j].updateValidMoves(self.board)

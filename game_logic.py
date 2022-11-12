@@ -24,7 +24,7 @@ RECT = (28,28,753,758)
 def update_gameWindow():
     global WINDOW,b
     WINDOW.blit(chessBoard, (0,0))
-    b.draw(WINDOW,b.board)
+    b.draw(WINDOW)
     pygame.draw.rect(WINDOW, (255,0,0),(28,28,753,758) ,2)
     pygame.display.update()
 
@@ -45,8 +45,8 @@ def click(position):
 
 def main():
     global b
-    b = Board(8, 8)
     run = True
+    b = Board(8, 8)
     clock = pygame.time.Clock()
     while run:
         clock.tick(10)
@@ -56,14 +56,15 @@ def main():
             if event.type == pygame.QUIT:
                 run = False
                 pygame.quit()
-            if event.type == pygame.MOUSEMOTION:
-                pass
+            
             if event.type == pygame.MOUSEBUTTONDOWN:
                 position = pygame.mouse.get_pos()
+                b.update_moves()
                 i,j = click(position)
-                # b.board[i][j].selected = True
                 b.select(i,j)
-
+                b.update_moves()
+                update_gameWindow()
+                
 # WINDWO VARIABLES 
 WINDOW = pygame.display.set_mode((WINDOW_WIDTH,WINDOW_HEIGHT))
 pygame.display.set_caption(WINDOW_TITLE)
