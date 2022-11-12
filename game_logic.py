@@ -61,9 +61,9 @@ def main():
                 position = pygame.mouse.get_pos()
                 b.update_moves()
                 i,j = click(position)
-                b.select(i,j)
+                b.select(i,j)   
                 b.update_moves()
-                update_gameWindow()
+                # update_gameWindow()
                 
 # WINDWO VARIABLES 
 WINDOW = pygame.display.set_mode((WINDOW_WIDTH,WINDOW_HEIGHT))

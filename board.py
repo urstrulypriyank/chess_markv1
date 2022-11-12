@@ -33,13 +33,13 @@ class Board:
         self.board[7][6] = Ghoda(7, 6, "w")
         self.board[7][7] = Hati(7, 7, "w")
 
-        # # PAWN PLOT FOR BLACK
-        # for i in range(8):
-        #     self.board[1][i] = Payada(1, i, "B")
+        # PAWN PLOT FOR BLACK
+        for i in range(8):
+            self.board[1][i] = Payada(1, i, "B")
 
-        # # PAWN PLOT FOR WHITE
-        # for i in range(8):
-        #     self.board[6][i] = Payada(6, i, "w") 
+        # PAWN PLOT FOR WHITE
+        for i in range(8):
+            self.board[6][i] = Payada(6, i, "w") 
    
     def draw(self,WINDOW):
         for i in range(self.rows):
@@ -74,9 +74,8 @@ class Board:
     def move(self,start,end):
         newBoard = self.board[:]
         newBoard[start[0]][start[1]].changePos((end[0],end[1]))
-        # newBoard[start[0]][start[1]].changePos((start[1],start[0]))
         newBoard[end[0]][end[1]] = newBoard[start[0]][start[1]]
-        newBoard[start[1]][start[1]] = 0
+        newBoard[start[0]][start[1]] = 0
         self.board = newBoard
     
     def update_moves(self):
