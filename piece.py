@@ -90,6 +90,7 @@ class Bishop(Piece):
                     moves.append((d_jl,d_i))
                 elif p.color != self.color:
                     moves.append((d_jl,d_i))
+                    break
                 else:
                     break
             else:
@@ -103,6 +104,7 @@ class Bishop(Piece):
                     moves.append((d_jr,d_i))
                 elif p.color != self.color:
                     moves.append((d_jr,d_i))
+                    break
                 else:
                     break
             else:
@@ -119,6 +121,7 @@ class Bishop(Piece):
                     moves.append((d_jl,d_i))
                 elif p.color != self.color:
                     moves.append((d_jl,d_i))
+                    break
                 else:
                     break
             else:
@@ -132,6 +135,7 @@ class Bishop(Piece):
                     moves.append((d_jr,d_i))
                 elif p.color != self.color:
                     moves.append((d_jr,d_i))
+                    break
                 else:
                     break
             else:
@@ -385,13 +389,20 @@ class Wazir(Piece):
                     moves.append((d_jl,d_i))
                 elif p.color != self.color:
                     moves.append((d_jl,d_i))
+                    break
+                else:
+                    break
             d_jl += 1
+        for d_i in range(i+1,8):
             if d_jr > -1:
                 p = board[d_i][d_jr]
                 if p == 0:
                     moves.append((d_jr,d_i))
                 elif p.color != self.color:
                     moves.append((d_jr,d_i))
+                    break
+                else:
+                    break
             d_jr -= 1    
         
         # WHITE DIAGONAL
@@ -404,14 +415,21 @@ class Wazir(Piece):
                     moves.append((d_jl,d_i))
                 elif p.color != self.color:
                     moves.append((d_jl,d_i))
+                    break
+                else:
+                    break
             d_jl -= 1
         
+        for d_i in range(i-1,-1,-1):
             if d_jr <= 7:
                 p = board[d_i][d_jr]
                 if p == 0:
                     moves.append((d_jr,d_i))
                 elif p.color != self.color:
                     moves.append((d_jr,d_i))
+                    break
+                else:
+                    break
             d_jr += 1
 
 # COPY MOVES OF HATHI / ROOK
@@ -420,6 +438,10 @@ class Wazir(Piece):
             p = board[x][j]
             if p == 0:
                 moves.append((j,x))
+            elif p.color != self.color:
+                moves.append((j,x))
+                break
+
             else:
                 break
 
@@ -428,6 +450,9 @@ class Wazir(Piece):
             p = board[x][j]
             if p == 0:
                 moves.append((j,x))
+            elif p.color != self.color:
+                moves.append((j,x))
+                break
             else:
                 break
         #LEFT
@@ -435,6 +460,9 @@ class Wazir(Piece):
             p = board[i][x]
             if p == 0:
                 moves.append((x,i))
+            elif p.color != self.color:
+                moves.append((x,i))
+                break
             else:
                 break
         
@@ -443,6 +471,9 @@ class Wazir(Piece):
             p = board[i][x]
             if p == 0:
                 moves.append((x,i))
+            elif p.color != self.color:
+                moves.append((x,i))
+                break
             else:
                 break
 

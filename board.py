@@ -61,8 +61,14 @@ class Board:
                 self.move(prev,(rows,cols))
             self.reset_selected()
         else:
-            self.reset_selected()
-            self.board[rows][cols].selected = True
+            if self.board[prev[0]][prev[1]].color != self.board[rows][cols].color:
+                moves = self.board[prev[0]][prev[1]].move_list
+                if (cols,rows) in moves:
+                    self.move(prev,(rows,cols))
+                self.reset_selected()
+            else:
+                self.reset_selected()
+                self.board[rows][cols].selected = True
 
     def reset_selected(self):
         for i in range(self.rows):
@@ -83,3 +89,4 @@ class Board:
             for j in range(self.cols):
                 if self.board[i][j] != 0:
                     self.board[i][j].updateValidMoves(self.board)
+               
