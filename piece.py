@@ -208,6 +208,9 @@ class Hati(Piece):
             p = board[x][j]
             if p == 0:
                 moves.append((j,x))
+            elif p.color != self.color:
+                moves.append((j,x))
+                break
             else:
                 break
 
@@ -216,6 +219,9 @@ class Hati(Piece):
             p = board[x][j]
             if p == 0:
                 moves.append((j,x))
+            elif p.color != self.color:
+                moves.append((j,x))
+                break
             else:
                 break
         #LEFT
@@ -223,6 +229,9 @@ class Hati(Piece):
             p = board[i][x]
             if p == 0:
                 moves.append((x,i))
+            elif p.color != self.color:
+                moves.append((x,i))
+                break
             else:
                 break
         
@@ -231,6 +240,9 @@ class Hati(Piece):
             p = board[i][x]
             if p == 0:
                 moves.append((x,i))
+            elif p.color != self.color:
+                moves.append((x,i))
+                break
             else:
                 break
         return moves
@@ -286,10 +298,10 @@ class Payada(Piece):
                     moves.append((j,i-1))
              #DIAGONAL
             if j < 7:
-                p = board[i+1][j+1]
+                p = board[i-1][j+1]
                 if p != 0:
                     if p.color != self.color:
-                        moves.append((j+1,i+1))
+                        moves.append((j+1,i-1))
             if j>0:
                 p = board[i-1][j-1]
                 if p!=0:
