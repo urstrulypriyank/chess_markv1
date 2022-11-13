@@ -66,6 +66,7 @@ class Board:
                 if (cols,rows) in moves:
                     self.move(prev,(rows,cols))
                 self.reset_selected()
+                self.board[rows][cols].selected = True
             else:
                 self.reset_selected()
                 self.board[rows][cols].selected = True
@@ -89,4 +90,47 @@ class Board:
             for j in range(self.cols):
                 if self.board[i][j] != 0:
                     self.board[i][j].updateValidMoves(self.board)
-               
+
+
+    def isInCheck(self,color):
+        under_check_proximity = []
+        king_moves = []
+        for i in range(self.rows):
+                for j in range(self.cols):
+                    if self.board[i][j] != 0:
+                        if self.board[i][j].color != color:
+                            under_check_proximity.append(self.board[i][j].move_list)
+        return under_check_proximity
+
+    def checkMate (self,color):
+        under_check_proximity = self.isInCheck(color)
+        king_moves = []
+        for i in range(self.rows):
+                for j in range(self.cols):
+                    if self.board[i][j] != 0:
+                            if self.board[i][j].isKing and self.board[i][j].color == color:
+                                for move in self.board[i][j].move_list:
+                                    king_moves.append(move)
+        if len(king_moves) == 0: return True
+
+        for move in king_moves:
+            if move not in under_check_proximity:
+                return False
+
+
+
+
+    def isChecked(self,color):
+        under_check_proximity = self.isInCheck(color)
+        king_pos = (-1,-1)
+        king_moves = []
+        for i in range(self.rows):
+                for j in range(self.cols):
+                    if self.board[i][j] != 0:
+                        if self.board[i][j].isKing and self.board[i][j].color == color:
+                            if (j,i) in under_check_proximity:
+                                king_pos = (i,j)
+        if king_pos not in under_check_proximity:
+            return False
+        else:
+            return True

@@ -156,10 +156,10 @@ class Ghoda(Piece):
             3. SIDE LEFT
             4. SIDE RIGHT
 
-            SIDE LEFT UP
-            SIDE LEFT DOWN
-            SIDE RIGHT UP
-            SIDE RIGHT DOWN
+            5.SIDE LEFT UP
+            6.SIDE LEFT DOWN
+            7.SIDE RIGHT UP
+            8.SIDE RIGHT DOWN
 
     """
     img_pos = 2
@@ -232,7 +232,7 @@ class Ghoda(Piece):
 
         
         # SIDE RIGHT DOWN
-        if i<7 and j < 5:
+        if i<7 and j < 6:
             p = board[i+1][j+2]
             if p ==0:
                 moves.append((j+2,i+1))
@@ -313,10 +313,15 @@ class Payada(Piece):
             if self.first:
                 if i < 6:
                     p = board[i+2][j]
-                    if p == 0:
-                        moves.append((j,i+2))
-                    elif p.color != self.color:
-                        moves.append((j,i+2))
+                    q = board[i+1][j]   
+                    if q == 0:
+                        if q ==0:
+                            moves.append((j,i+2))
+                        
+                        else :
+                            moves.append((j,i+1))
+                    # elif p.color != self.color:
+                    #     moves.append((j,i+2))
             if i < 7:
                 p = board[i+1][j] 
                 if p== 0:
@@ -338,8 +343,12 @@ class Payada(Piece):
             if self.first:
                 if i > 1:
                     p = board[i-2][j]
-                    if p == 0:
-                        moves.append((j,i-2))
+                    q = board[i-1][j]
+                    if q == 0:
+                        if p ==0:
+                            moves.append((j,i-2))
+                        else:
+                            moves.append((j,i-1))
             if i > 0:
                 p = board[i-1][j] 
                 if p== 0:
@@ -367,6 +376,10 @@ class Raja(Piece):
     8 possible position direction one step  
     """
     img_pos = 0
+
+    def __init__(self, row, col, color):
+        super().__init__(row, col, color)
+        self.isKing = True
     def validMoves(self, board):
         i,j = self.row,self.col
         moves = []
