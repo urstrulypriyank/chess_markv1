@@ -150,11 +150,17 @@ class Bishop(Piece):
 
 class Ghoda(Piece):
     """
-        4 POSSIBLE MOVES TO HANDLE 
+        8 POSSIBLE MOVES TO HANDLE 
             1. DOWNL LEFT
             2. DOWN RIGHT
             3. SIDE LEFT
             4. SIDE RIGHT
+
+            SIDE LEFT UP
+            SIDE LEFT DOWN
+            SIDE RIGHT UP
+            SIDE RIGHT DOWN
+
     """
     img_pos = 2
     def validMoves(self,board):
@@ -166,7 +172,8 @@ class Ghoda(Piece):
             if p== 0:
                 moves.append((j-1,i+2))
             elif p.color != self.color: 
-                moves.append((j-1,i+2))
+                moves.append((j-1,i+2)) 
+
                 
         # Down Right
         if i < 6 and j<7:
@@ -184,13 +191,54 @@ class Ghoda(Piece):
                 moves.append((j-1,i-2))
             elif p.color != self.color:
                 moves.append((j-1,i-2))
-        # Side Riht
+        # Side Right
         if i > 1  and j<7:
             p = board[i-2][j+1] 
             if p== 0:
                 moves.append((j+1,i-2))
             elif p.color != self.color:
                 moves.append((j+1,i-2))
+
+
+        # if i >2  and j >1:
+        #     p = board[i+1][j+2]
+        #     if p ==0:
+        #         moves.append((j+2,i+1))
+        #     elif p.color != self.color:
+        #         moves.append((j+2,i+1))
+        # i,j = j,i
+
+        # SIDE LEFT DOWN
+        if j > 1  and i < 7:
+            p = board[i+1][j-2]
+            if p ==0:
+                moves.append((j-2,i+1))
+            elif p.color != self.color:
+                    moves.append((j-2,i+1))
+        # SIDE LEFT UP
+        if j > 1 and i > 0:
+            p = board[i-1][j-2]
+            if p ==0:
+                moves.append((j-2,i-1))
+            elif p.color != self.color:
+                    moves.append((j-2,i-1)) 
+        # SIDE RIGHT UP 
+        if i>0 and j < 6:
+            p = board[i-1][j+2]
+            if p ==0:
+                moves.append((j+2,i-1))
+            elif p.color != self.color:
+                    moves.append((j+2,i-1)) 
+
+        
+        # SIDE RIGHT DOWN
+        if i<7 and j < 5:
+            p = board[i+1][j+2]
+            if p ==0:
+                moves.append((j+2,i+1))
+            elif p.color != self.color:
+                moves.append((j+2,i+1))
+                
         return moves
 
 
