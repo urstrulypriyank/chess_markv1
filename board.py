@@ -80,6 +80,8 @@ class Board:
 
     def move(self,start,end):
         newBoard = self.board[:]
+        if newBoard[start[0]][start[1]].payada:
+            newBoard[start[0]][start[1]].first = False
         newBoard[start[0]][start[1]].changePos((end[0],end[1]))
         newBoard[end[0]][end[1]] = newBoard[start[0]][start[1]]
         newBoard[start[0]][start[1]] = 0
