@@ -43,6 +43,7 @@ class Piece:
         self.selected = False
         self.move_list = []
         self.payada = False
+        self.isKing = False
     # def validMoves(self,board):
     #     pass
    
@@ -77,6 +78,8 @@ class Piece:
 
 class Bishop(Piece):
     img_pos = 1
+    
+
     def validMoves(self, board):
         i,j = self.row,self.col
         moves = []

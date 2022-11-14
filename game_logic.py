@@ -10,12 +10,13 @@ pygame.init()
 WINDOW_WIDTH = 810
 WINDOW_HEIGHT = 810
 WINDOW_TITLE = "CHESS GAME"
+RED = (255,0,0)
 
 # LOADING IMAGES
 chessBoard = pygame.image.load(os.path.join("images","ChessBoard.png"))
 chessBoard = pygame.transform.scale(chessBoard, [WINDOW_WIDTH,WINDOW_HEIGHT])
 RECT = (28,28,753,758)
-
+turn = "w"
 
 
 
@@ -41,11 +42,34 @@ def click(position):
             # print(i,j)
     return i,j
 
+def endScreen(WINDOW,msg):
+    pygame.font.init()
+    font = pygame.font.SysFont("comicsans", 80)
+    txt = font.render(msg, 1,RED)
+    WINDOW.blit(txt,(WINDOW_WIDTH/2 - txt.get_width()/2,250))
+    pygame.display.update()
 
+
+    pygame.time.set_timer(pygame.USEREVENT+1,5000)
+
+    run = True
+    while run:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+                run = False
+            elif event.type == pygame.KEYDOWN:
+                run = False
+            elif event.type == pygame.USEREVENT+1:
+                run = False
+
+    
 
 def main():
     global b
     run = True
+    turn = "w"
     b = Board(8, 8)
     clock = pygame.time.Clock()
     while run:
@@ -61,9 +85,16 @@ def main():
                 position = pygame.mouse.get_pos()
                 b.update_moves()
                 i,j = click(position)
-                b.select(i,j)   
+                change = b.select(i,j,turn) 
                 b.update_moves()
                 # update_gameWindow()   
+                if change:
+                    if turn == "w": turn = "B"
+                    else: turn = "w"
+    if b.checkMate("w"):
+        endScreen(WINDOW, "white Won!")
+    if b.checkMate("B"):
+        endScreen(WINDOW, "Black Won!")        
                 
 # WINDWO VARIABLES 
 WINDOW = pygame.display.set_mode((WINDOW_WIDTH,WINDOW_HEIGHT))
