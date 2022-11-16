@@ -4,7 +4,7 @@ from piece import Bishop
 from board import Board
 import math
 
-pygame.init()
+
 
 #WINDOW VARIABLES 
 WINDOW_WIDTH = 810
@@ -20,6 +20,9 @@ turn = "w"
 
 
 
+# TO CONNECT TO SERVER
+def connect():
+    pass    
 
 
 def update_gameWindow():
@@ -40,6 +43,7 @@ def click(position):
             i = int((divX /(RECT[2]/8)))
             j = int((divY/(RECT[3]/8)))
             # print(i,j)
+    else: return (-1,-1)
     return i,j
 
 def endScreen(WINDOW,msg):
@@ -64,10 +68,26 @@ def endScreen(WINDOW,msg):
             elif event.type == pygame.USEREVENT+1:
                 run = False
 
+def screen_menu(WINDOW):
+    run = True
+    WINDOW.fill((128,128,128))
+    font = pygame.font.SysFont("Arial", 30)
+    title = font.render("Online Multiplayer Chess Game", 1, (0,255,255))
+    WINDOW.blit(title,(WINDOW_WIDTH/2 - title.get_width()/2,200))
+    pygame.display.update()
+    while run:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.QUIT
+                run = False
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                run = False
+
+    main()
     
 
 def main():
-    global b
+    global b,turn
     run = True
     turn = "w"
     b = Board(8, 8)
@@ -82,21 +102,46 @@ def main():
                 pygame.quit()
             
             if event.type == pygame.MOUSEBUTTONDOWN:
-                position = pygame.mouse.get_pos()
-                b.update_moves()
-                i,j = click(position)
-                change = b.select(i,j,turn) 
-                b.update_moves()
-                # update_gameWindow()   
-                if change:
-                    if turn == "w": turn = "B"
-                    else: turn = "w"
-    if b.checkMate("w"):
-        endScreen(WINDOW, "white Won!")
-    if b.checkMate("B"):
-        endScreen(WINDOW, "Black Won!")        
-                
+                if turn == color:
+                    position = pygame.mouse.get_pos()
+                    b.update_moves()
+                    i,j = click(position)
+                    
+                    change = b.select(i,j,turn) 
+                    b.update_moves()
+                    # update_gameWindow()   
+                    if change:
+                        if turn == "w": turn = "B"
+                        else: turn = "w"
+           
+
+
+
+#                        ***** GLOBAL CODE SPACE *****
+
+pygame.init()
+
+#WINDOW VARIABLES 
+WINDOW_WIDTH = 810
+WINDOW_HEIGHT = 810
+WINDOW_TITLE = "CHESS GAME"
+RED = (255,0,0)
+
+# LOADING IMAGES
+chessBoard = pygame.image.load(os.path.join("images","ChessBoard.png"))
+chessBoard = pygame.transform.scale(chessBoard, [WINDOW_WIDTH,WINDOW_HEIGHT])
+RECT = (28,28,753,758)
+
+'''
+is used to change the turn 
+'''
+turn = "w"
+
+
+
 # WINDWO VARIABLES 
 WINDOW = pygame.display.set_mode((WINDOW_WIDTH,WINDOW_HEIGHT))
 pygame.display.set_caption(WINDOW_TITLE)
-main()
+# main()
+color = connect()
+screen_menu(WINDOW)

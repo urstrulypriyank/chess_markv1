@@ -42,7 +42,7 @@ class Piece:
         self.color = color
         self.selected = False
         self.move_list = []
-        self.payada = False
+        self.Payada = False
         self.isKing = False
     # def validMoves(self,board):
     #     pass
@@ -307,7 +307,7 @@ class Payada(Piece):
         super().__init__(row, col, color)
         self.first = True
         self.wazir = False
-        self.payada = True
+        self.Payada = True
     def validMoves(self,board):
         i,j = self.row,self.col
         moves = []

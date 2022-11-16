@@ -49,6 +49,7 @@ class Board:
                     self.board[i][j].draw(WINDOW)
     
     def select(self,cols,rows,color):
+        self.turn = color
         changed = False
         prev = (-1,-1)
        
@@ -63,19 +64,22 @@ class Board:
         if self.board[rows][cols] == 0:
             moves = self.board[prev[0]][prev[1]].move_list
             if (cols,rows) in moves:
-                self.move(prev,(rows,cols),color)
-                changed = True
+                changed = self.move(prev,(rows,cols),color)
             self.reset_selected()
         else:
             if self.board[prev[0]][prev[1]].color != self.board[rows][cols].color:
                 moves = self.board[prev[0]][prev[1]].move_list
                 if (cols,rows) in moves:
                     self.reset_selected()
-                    self.move(prev,(rows,cols),color)
-                    changed = True
+                    self.board[prev[0]][prev[1]].color = self.board[rows][cols].color
+                    # self.update_moves()
+                    self.reset_selected()
+                    self.board[rows][cols].color = self.board[prev[0]][prev[1]]
+                    changed = self.move(prev,(rows,cols),color)
                 if self.board[rows][cols].color == color:
                     self.board[rows][cols].selected = True
                     self.update_moves()
+                
                     
             else:
                 if self.board[rows][cols].color == color:
@@ -92,9 +96,11 @@ class Board:
                    
 
     def move(self,start,end,color):
+        checkedBefore = self.isChecked(color)
+        changed = True
         oldBoard = self.board[:]
         newBoard = self.board[:]
-        if newBoard[start[0]][start[1]].payada:
+        if newBoard[start[0]][start[1]].Payada:
             newBoard[start[0]][start[1]].first = False
         newBoard[start[0]][start[1]].changePos((end[0],end[1]))
         newBoard[end[0]][end[1]] = newBoard[start[0]][start[1]]
@@ -102,11 +108,22 @@ class Board:
         self.board = newBoard
         # self.reset_selected()
 
-        if self.isChecked(color):
+        if color == "w": checkColor = "B"
+        else: checkColor = "w"
+
+        # self.update_moves()
+        if self.isChecked(color) or (checkedBefore and self.isChecked(color)):
+            checkedBefore = self.isChecked(color)
+            changed = False
+            newBoard = self.board[:]
+            if newBoard[end[0]][end[1]].Payada:
+                newBoard[end[0]][end[1]].first = True
+            newBoard[end[0]][end[1]].changePos((start[0],start[1]))
+            newBoard[start[0]][start[1]] = newBoard[end[0]][end[1]]
+            newBoard[end[0]][end[1]] = 0
             self.board = newBoard
-            newBoard[start[0]][start[1]].changePos((start[0],start[1]))
-        self.reset_selected()
-            
+        return changed  
+
     
     def update_moves(self):
         for i in range(self.rows):
@@ -119,22 +136,7 @@ class Board:
     
     
     
-    # CHECK AND MATE
-    
-    def checkMate (self,color):
-        under_check_proximity = self.isInCheck(color)
-        king_moves = []
-        for i in range(self.rows):
-                for j in range(self.cols):
-                    if self.board[i][j] != 0:
-                            if self.board[i][j].isKing and self.board[i][j].color == color:
-                                for move in self.board[i][j].move_list:
-                                    king_moves.append(move)
-        if len(king_moves) == 0: 
-            for move in king_moves:
-                if move not in under_check_proximity:
-                    return False
-            return True
+
 
     def isInCheck(self,color):
         under_check_proximity = []
@@ -160,3 +162,35 @@ class Board:
         if king_pos in under_check_proximity:
             return True
         return False
+ 
+ 
+   # CHECK AND MATE
+
+"""    def checkMate (self,color):
+        under_check_proximity = self.isInCheck(color)
+        king_moves = []
+        block_moves = []
+        for i in range(self.rows):
+                for j in range(self.cols):
+                    if self.board[i][j] != 0:
+                            if self.board[i][j].color == color:
+                                if self.board[i][j].isKing: 
+                                    for move in self.board[i][j].move_list:
+                                        king_moves.append(move)
+                                else:
+                                    for move in self.board[i][j].move_list:
+                                        block_moves.append(move)
+
+        
+        if len(king_moves) == 0:
+            return False
+        for block in block_moves:
+            under_check_moves = under_check_proximity[:]
+            if block in under_check_proximity:
+                under_check_moves.remove(block)
+            
+        for move in king_moves:
+            if move not in under_check_proximity:
+                return False
+        return True
+"""
