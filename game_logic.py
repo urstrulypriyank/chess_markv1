@@ -143,5 +143,5 @@ turn = "w"
 WINDOW = pygame.display.set_mode((WINDOW_WIDTH,WINDOW_HEIGHT))
 pygame.display.set_caption(WINDOW_TITLE)
 # main()
-color = connect()
+b,color = connect()
 screen_menu(WINDOW)

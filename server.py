@@ -50,14 +50,14 @@ def threaded_client(conn, game, spec=False):
         if connections % 2 == 0:
             currentId = "w"
         else:
-            currentId = "b"
+            currentId = "B"
 
         bo.start_user = currentId
 
         # Pickle the object and send it to the server
         data_string = pickle.dumps(bo)
 
-        if currentId == "b":
+        if currentId == "B":
             bo.ready = True
             bo.startTime = time.time()
 
@@ -93,7 +93,7 @@ def threaded_client(conn, game, spec=False):
 
                     if data.count("name") == 1:
                         name = data.split(" ")[1]
-                        if currentId == "b":
+                        if currentId == "B":
                             bo.p2Name = name
                         elif currentId == "w":
                             bo.p1Name = name
@@ -113,7 +113,7 @@ def threaded_client(conn, game, spec=False):
 
             except Exception as e:
                 print(e)
-        
+            
         connections -= 1
         try:
             del games[game]
